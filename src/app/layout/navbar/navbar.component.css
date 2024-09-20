@@ -1,75 +1,80 @@
-/* Estilo para el header fijo */
+/* Header fijo en la parte superior */
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1030; /* Asegura que el header esté encima del contenido */
-    background-color: white; /* Fondo para mantenerlo visible */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
 
+/* Espaciado extra debajo del header para evitar que lo cubra */
+.navbar-section {
+  padding-top: 100px; /* Ajustamos este padding según la altura del header */
+}
 
-/* Estilos personalizados para el menú lateral */
+/* Estilo del menú lateral */
 .sidebar {
-    background-color: #d50000e0; /* Fondo oscuro */
-    color: white;
-    height: 100vh; /* Ocupa toda la altura de la pantalla */
-    position: fixed;
-    top: 95px; /* Justo debajo del header */
-    left: 0;
-    width: 250px;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  }
+  background-color: #d50000e0;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  top: 90px;
+  left: 0;
+  width: 250px;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
 
-  .sidebar h5 {
-    color: #f8f9fa; /* Color del texto del título */
-    margin-bottom: 20px;
-  }
+.sidebar h5 {
+  color: #f8f9fa;
+  margin-bottom: 20px;
+}
 
-  .sidebar a {
-    color: #ffffff; /* Color de los enlaces */
-    text-decoration: none;
-    display: block;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 12px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  .sidebar a:hover {
-    background-color: #495057; /* Color de fondo al hacer hover */
-    color: #fff; /* Cambiar a blanco en hover */
-  }
+.sidebar a:hover {
+  background-color: #9c1f1f;
+}
 
-  /* Estilos para el offcanvas (menú ocultable en móviles) */
-  .offcanvas {
-    background-color: #d50000e0; /* Fondo oscuro como el sidebar */
-    color: white;
-    --bs-offcanvas-width: 300px; /* Ancho del offcanvas */
-  }
+/* Offcanvas (menú en móviles) */
+.offcanvas {
+  background-color: #d50000e0;
+  color: white;
+  --bs-offcanvas-width: 270px;
+}
 
-  .offcanvas .offcanvas-header, .offcanvas .offcanvas-body {
-    color: #f8f9fa; /* Texto claro en el offcanvas */
-  }
+.offcanvas a {
+  color: white;
+  padding: 12px 20px;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+}
 
-  .offcanvas a {
-    color: #ffffff;
-    text-decoration: none;
-    display: block;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+.offcanvas a:hover {
+  background-color: #9c1f1f;
+}
 
-  .offcanvas a:hover {
-    background-color: #495057;
-    color: #fff;
-  }
+/* Botón de menú para móviles */
+.d-lg-none .btn-primary {
+  display: block;
+  /* margin-left: auto; */
+  margin-right: auto;
+}
 
-  /* Ajustamos el contenido principal para que no se superponga con el menú en pantallas grandes */
-  @media (min-width: 992px) {
-    main {
-      margin-left: 270px; /* Ajustamos el margen para el menú lateral */
-      max-width: 800px; /* Limite de ancho */
-    }
+/* Ocultar el nombre del alumno en pantallas pequeñas */
+@media (max-width: 992px) {
+  .dropdown-toggle .d-none.d-lg-inline {
+    display: none !important;
   }
+}

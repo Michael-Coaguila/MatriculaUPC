@@ -1,72 +1,62 @@
-<section _ngcontent-ng-c567808177="" style="min-height: 650px;padding-top: 100px;padding-bottom: 0px;">
-    
-    <!-- Header -->
-    <header class="bg-light p-3 shadow-sm">
-        <div class="container d-flex justify-content-between align-items-center">
-          <!-- Logo a la izquierda -->
-          <div class="d-flex align-items-center">
-            <img src="/assets/images/logo1.png" alt="Logo" class="img-fluid" style="width: 50px; height: 50px;">
-            <h1 class="ms-3">Matrícula UPC</h1>
-          </div>
-    
-          <!-- Dropdown con logo del alumno y opción de desconectarse -->
-          <div class="dropdown">
-            <button class="btn dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="me-2">Nombre del Alumno</span>
-              <span class="badge bg-primary">U123456789</span>
-              <img src="/assets/images/profile.png" alt="User Logo" class="img-fluid rounded-circle" style="width: 40px; height: 40px;">
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#">Perfil</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="#">Desconectarse</a></li>
-            </ul>
-            
-            
-          </div>
-        </div>
-      </header>
-    
-      <!-- Botón para el menú offcanvas (se muestra solo en pantallas pequeñas) -->
-      <div class="container my-3">
-        <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-          Menú
+<section class="navbar-section">
+  <!-- Header -->
+  <header class="bg-light p-3 shadow-sm fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- Logo a la izquierda -->
+      <div class="d-flex align-items-center">
+        <img src="/assets/images/logo-upc.png" alt="Logo" class="img-fluid" style="width: 50px; height: 50px;">
+        <h1 class="ms-3">Matrícula UPC</h1>
+      </div>
+
+      <!-- Dropdown con información del alumno y opción de desconectarse -->
+      <div class="dropdown">
+        <button class="btn dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="me-2 d-none d-lg-inline">Nombre del Alumno</span> <!-- Ocultamos el nombre en pantallas pequeñas -->
+          <span class="badge bg-primary">U123456789</span>
+          <img src="https://www.kindpng.com/picc/m/25-254714_graduation-ceremony-vector-graphics-graduate-university-student-icon.png" alt="User Logo" class="img-fluid rounded-circle" style="width: 40px; height: 40px;">
         </button>
-      </div>
-    
-      <!-- Menú lateral que se puede ocultar o mostrar (offcanvas) con nuevo estilo -->
-      <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-decoration-none">Inicio</a></li>
-            <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
-            <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
-            <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
-            <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
-          </ul>
-        </div>
-      </div>
-    
-      <!-- Menú lateral visible en pantallas grandes con nuevo estilo -->
-      <div class="sidebar d-none d-lg-block">
-        <h5>Menú</h5>
-        <ul class="list-unstyled">
-            <li><a href="#" class="text-decoration-none">Inicio</a></li>
-            <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
-            <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
-            <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
-            <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" href="#">Perfil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#">Desconectarse</a></li>
         </ul>
       </div>
-    
-      <!-- Contenido principal centrado -->
-      <main class="container mx-auto my-5">
-        <h1 class="text-center">Contenido Principal</h1>
-        <p class="text-center">Este es el contenido principal de la página.</p>
-      </main>
-    </section>
-      
+    </div>
+  </header>
+
+  <!-- Botón para el menú offcanvas (visible solo en pantallas pequeñas) -->
+  <div class="container my-3 d-lg-none" style="position: fixed;">
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+      Menú
+    </button>
+  </div>
+
+  <!-- Menú offcanvas (para móviles) -->
+  <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled">
+        <li><a href="#" class="text-decoration-none">Inicio</a></li>
+        <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
+        <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
+        <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
+        <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Menú lateral visible en pantallas grandes -->
+  <div class="sidebar d-none d-lg-block">
+    <h5>Menú</h5>
+    <ul class="list-unstyled">
+      <li><a href="#" class="text-decoration-none">Inicio</a></li>
+      <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
+      <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
+      <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
+      <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
+    </ul>
+  </div>
+</section>
