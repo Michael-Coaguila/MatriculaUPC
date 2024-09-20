@@ -1,1 +1,53 @@
-<p>login works!</p>
+<section class="login-page">
+    <!-- Contenedor principal del formulario de login -->
+    <div class="container-fluid login-container d-flex justify-content-center align-items-center">
+      <!-- Formulario de login con el nuevo diseño -->
+      <div class="card login-form shadow-lg">
+        <div class="card-body p-4">
+          <h3 class="text-center mb-4">Bienvenido a UPC</h3>
+          
+          <!-- Logo de la universidad justo debajo del título -->
+          <div class="text-center mb-4">
+            <img src="/assets/images/logo-upc.png" alt="Logo UPC" class="img-fluid" style="width: 120px;">
+          </div>
+  
+          <!-- Campo para Nombre de Usuario -->
+          <div class="mb-3">
+            <label for="username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="username" placeholder="Ingresa tu usuario">
+          </div>
+  
+          <!-- Campo para Contraseña -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
+          </div>
+  
+          <!-- Opción de Olvidaste tu contraseña -->
+          <div class="mb-3 text-end">
+            <a href="#" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+          </div>
+  
+          <!-- Botón de Iniciar Sesión -->
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg">Iniciar Sesión</button>
+            <a href="/dashboard" class="btn btn-outline-secondary btn-lg">Ingresar como Invitado</a> <!-- Enlace para probar la aplicación mientras se implementa el login -->
+          </div>
+  
+          <!-- Botón de Iniciar Sesión con Cuenta Institucional -->
+          <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center">
+              <img src="https://pngimg.com/uploads/microsoft/microsoft_PNG5.png" alt="Microsoft Logo" class="me-2" style="width: 20px;">
+              Iniciar Sesión con Cuenta Institucional
+            </button>
+          </div>
+  
+          <!-- ¿Necesitas ayuda? -->
+          <div class="text-center mt-4">
+            <a href="#" class="text-decoration-none">¿Necesitas ayuda? Haz click aquí</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

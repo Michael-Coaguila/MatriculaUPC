@@ -1,0 +1,73 @@
+/* Estilo para el contenedor de la página de login */
+.login-page {
+    min-height: 100vh;
+    background-image: url('/assets/images/login-background.jpeg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+/* Capa gris transparente detrás del formulario */
+.login-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Capa gris transparente correctamente ubicada detrás del formulario */
+  .login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* Capa gris transparente */
+    z-index: 0; /* Colocada detrás */
+  }
+  
+ /* Estilo para el formulario de login */
+.login-form {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    background-image: url('https://aulavirtual.upc.edu.pe/bbcswebdav/institution/Branding/New_Login/bblearn_2011_bg.png');
+    background-repeat: repeat; /* Repetir la imagen como patrón */
+    background-position: 0 0; /* Iniciar desde la esquina superior izquierda */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1; /* Colocamos el formulario por encima */
+  }
+  
+  /* Estilo para los botones */
+  .login-form .btn-primary {
+    background-color: #d50000;
+    border: none;
+  }
+  
+  .login-form .btn-outline-secondary {
+    border-color: #d50000;
+  }
+  
+  .login-form .btn-outline-secondary:hover {
+    background-color: #d50000;
+    color: white;
+  }
+  
+  /* Estilo para el logo */
+  .login-form img {
+    width: 100px;
+  }
+  
+  /* Ajuste de los enlaces */
+  .login-form a {
+    color: #d50000;
+  }
+  
+  .login-form a:hover {
+    color: #a40000;
+  }
+  
