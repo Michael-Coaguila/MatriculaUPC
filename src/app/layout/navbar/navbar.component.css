@@ -1,0 +1,75 @@
+/* Estilo para el header fijo */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030; /* Asegura que el header esté encima del contenido */
+    background-color: white; /* Fondo para mantenerlo visible */
+  }
+
+
+/* Estilos personalizados para el menú lateral */
+.sidebar {
+    background-color: #d50000e0; /* Fondo oscuro */
+    color: white;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    position: fixed;
+    top: 95px; /* Justo debajo del header */
+    left: 0;
+    width: 250px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+
+  .sidebar h5 {
+    color: #f8f9fa; /* Color del texto del título */
+    margin-bottom: 20px;
+  }
+
+  .sidebar a {
+    color: #ffffff; /* Color de los enlaces */
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .sidebar a:hover {
+    background-color: #495057; /* Color de fondo al hacer hover */
+    color: #fff; /* Cambiar a blanco en hover */
+  }
+
+  /* Estilos para el offcanvas (menú ocultable en móviles) */
+  .offcanvas {
+    background-color: #d50000e0; /* Fondo oscuro como el sidebar */
+    color: white;
+    --bs-offcanvas-width: 300px; /* Ancho del offcanvas */
+  }
+
+  .offcanvas .offcanvas-header, .offcanvas .offcanvas-body {
+    color: #f8f9fa; /* Texto claro en el offcanvas */
+  }
+
+  .offcanvas a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .offcanvas a:hover {
+    background-color: #495057;
+    color: #fff;
+  }
+
+  /* Ajustamos el contenido principal para que no se superponga con el menú en pantallas grandes */
+  @media (min-width: 992px) {
+    main {
+      margin-left: 270px; /* Ajustamos el margen para el menú lateral */
+      max-width: 800px; /* Limite de ancho */
+    }
+  }
