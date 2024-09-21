@@ -1,1 +1,80 @@
-<p>dashboard works!</p>
+<section class="dashboard-page">
+    <div class="container my-5">
+      <!-- Encabezado de bienvenida -->
+      <div class="row mb-4">
+        <div class="col text-center">
+          <h1>Bienvenido, {{ alumno.nombre }}</h1>
+          <p class="lead">ID de Estudiante: <span class="badge bg-primary">{{ alumno.id }}</span></p>
+        </div>
+      </div>
+  
+      <!-- Información Estado de Matrícula -->
+      <div class="row mb-5" style="justify-content: center;">
+        <div class="col-lg-10 mb-4 text-center">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">Estado de Matrícula</h5>
+                <p class="card-text">Turno: <strong>{{ alumno.turno }}</strong></p>
+                <p class="card-text">
+                  <span class="badge bg-danger" *ngIf="alumno.tieneDeuda">Deuda Pendiente</span>
+                  <span class="badge bg-success" *ngIf="!alumno.tieneDeuda">Sin Deudas</span>
+                  <p class="card-text" *ngIf="alumno.tieneDeuda">Para consultar el estado de sus pagos y obtener más información, haga clic <a href="https://finanzas.upc.edu.pe/"><strong>AQUI</strong></a>
+                </p>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+      <!-- Accesos Directos, Guía de Matrícula y Consulta de Horarios -->
+      <div class="row mb-5" style="justify-content: center;">
+        <!-- Guía de Matrícula -->
+        <div class="col-lg-5 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Guía de Matrícula</h5>
+              <p class="card-text">Consulta la guía para completar tu matrícula sin problemas.</p>
+              <a href="/enrollment-guide" class="btn btn-primary">Ver Guía</a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Consulta de Horarios -->
+        <div class="col-lg-5 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Consulta de Horarios</h5>
+              <p class="card-text">Explora los horarios disponibles antes de matricularte.</p>
+              <a href="/schedule-simulation" class="btn btn-primary">Consultar Horarios</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Accesos Directos -->
+      <div class="row" style="justify-content: center;">
+        <!-- Si el alumno no se ha matriculado, colocar "Iniciar Matrícula" en el centro -->
+        <div [ngClass]="{'col-lg-10 text-center': !alumno.estaMatriculado, 'col-lg-5 mb-4': alumno.estaMatriculado}">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Iniciar Matrícula</h5>
+              <p class="card-text">Comienza tu proceso de matrícula seleccionando tus cursos.</p>
+              <a href="/enrollment" class="btn btn-primary">Iniciar Matrícula</a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Solo mostrar "Horario Matriculado" si el alumno ya se ha matriculado -->
+        <div *ngIf="alumno.estaMatriculado" class="col-lg-5 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Horario Matriculado</h5>
+              <p class="card-text">Revisa el horario de los cursos en los que te has matriculado.</p>
+              <a href="/official-schedule" class="btn btn-primary">Ver Horario</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

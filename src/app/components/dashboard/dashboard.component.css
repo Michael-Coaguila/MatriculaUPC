@@ -1,0 +1,54 @@
+/* Estilo general del dashboard */
+.dashboard-page {
+    background-color: #f8f9fa; /* Fondo gris claro */
+    min-height: 100vh;
+    padding-top: 50px;
+  }
+  
+  /* Ajustar el margen izquierdo en pantallas grandes cuando el menú lateral está visible */
+  @media (min-width: 992px) {
+    .dashboard-page {
+      margin-left: 250px; /* Ajusta el margen según el ancho del menú lateral */
+    }
+  }
+  
+  /* Tarjetas (cards) con sombra ligera */
+  .card {
+    border: none;
+    border-radius: 10px;
+  }
+  
+  /* Texto centrado */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Aumentar el tamaño del encabezado */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Color del botón */
+  .btn-primary {
+    background-color: #d50000;
+    border-color: #d50000;
+  }
+  
+  .btn-primary:hover {
+    background-color: #a40000;
+    border-color: #a40000;
+  }
+  
+  /* Espacio entre filas de contenido */
+  .row {
+    margin-bottom: 2rem;
+  }
+  
+  /* Ajustes de las tarjetas en pantallas grandes */
+  @media (min-width: 992px) {
+    .card {
+      height: 100%;
+    }
+  }
+  

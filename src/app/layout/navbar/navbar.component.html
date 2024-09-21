@@ -11,9 +11,9 @@
       <!-- Dropdown con información del alumno y opción de desconectarse -->
       <div class="dropdown">
         <button class="btn dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="me-2 d-none d-lg-inline">Nombre del Alumno</span> <!-- Ocultamos el nombre en pantallas pequeñas -->
-          <span class="badge bg-primary">U123456789</span>
-          <img src="https://www.kindpng.com/picc/m/25-254714_graduation-ceremony-vector-graphics-graduate-university-student-icon.png" alt="User Logo" class="img-fluid rounded-circle" style="width: 40px; height: 40px;">
+          <span class="me-2 d-none d-lg-inline">{{ alumno.nombre}}</span> <!-- Ocultamos el nombre en pantallas pequeñas -->
+          <span class="badge bg-primary">{{ alumno.id }}</span>
+          <img src="{{ alumno.foto }}" alt="User Logo" class="img-fluid rounded-circle" style="width: 40px; height: 40px;">
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">Perfil</a></li>
@@ -25,7 +25,7 @@
   </header>
 
   <!-- Botón para el menú offcanvas (visible solo en pantallas pequeñas) -->
-  <div class="container my-3 d-lg-none" style="position: fixed;">
+  <div class="container my-3 d-lg-none" style="position: fixed; z-index: 1;">
     <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
       Menú
     </button>
@@ -39,11 +39,11 @@
     </div>
     <div class="offcanvas-body">
       <ul class="list-unstyled">
-        <li><a href="#" class="text-decoration-none">Inicio</a></li>
-        <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
-        <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
-        <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
-        <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
+        <li><a href="/dashboard" class="text-decoration-none">Inicio</a></li>
+        <li><a href="/enrollment-guide" class="text-decoration-none">Guía de Matricula</a></li>
+        <li><a href="/schedule-simulation" class="text-decoration-none">Consulta de Horarios</a></li>
+        <li><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
+        <li><a href="/official-schedule" class="text-decoration-none">Horario Matriculado</a></li>
       </ul>
     </div>
   </div>
@@ -52,11 +52,11 @@
   <div class="sidebar d-none d-lg-block">
     <h5>Menú</h5>
     <ul class="list-unstyled">
-      <li><a href="#" class="text-decoration-none">Inicio</a></li>
-      <li><a href="#" class="text-decoration-none">Guía de Matricula</a></li>
-      <li><a href="#" class="text-decoration-none">Consulta de Horarios</a></li>
-      <li><a href="#" class="text-decoration-none">Iniciar Matrícula</a></li>
-      <li><a href="#" class="text-decoration-none">Horario Matriculado</a></li>
+      <li><a href="/dashboard" class="text-decoration-none">Inicio</a></li>
+      <li><a href="/enrollment-guide" class="text-decoration-none">Guía de Matricula</a></li>
+      <li><a href="/schedule-simulation" class="text-decoration-none">Consulta de Horarios</a></li>
+      <li><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
+      <li><a href="/official-schedule" class="text-decoration-none">Horario Matriculado</a></li>
     </ul>
   </div>
 </section>
