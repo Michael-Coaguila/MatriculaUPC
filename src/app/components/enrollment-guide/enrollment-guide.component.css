@@ -1,0 +1,110 @@
+/* Estilo general para la página de guía de matrícula */
+.enrollment-guide-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 50px;
+}
+
+@media (min-width: 992px) {
+  .enrollment-guide-page {
+    margin-left: 250px; /* Ajusta el margen según el ancho del menú lateral */
+  }
+}
+
+/* Contenedor del video */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Limita el ancho máximo del video en pantallas grandes */
+  margin: 0 auto; /* Centra el video horizontalmente */
+  height: 0;
+  padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+  overflow: hidden;
+  background-color: #000; /* Fondo negro mientras se carga el video */
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0; /* Elimina los bordes */
+}
+
+/* Ajustes para pantallas grandes */
+@media (min-width: 992px) {
+  .video-container {
+    height: 450px; /* Ajustamos una altura fija para pantallas grandes */
+    padding-bottom: 0; /* Eliminamos el padding que creaba las franjas en pantallas grandes */
+  }
+
+  .video-container iframe {
+    height: 100%;
+  }
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 576px) {
+  .video-container {
+    max-width: 100%; /* El video ocupará todo el ancho de la pantalla */
+  }
+}
+
+
+
+/* Estilo para las tarjetas (cards) */
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+/* Estilo para los títulos */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+h5 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Ajuste de tamaño del video */
+.ratio {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Botones principales */
+.btn-primary {
+  background-color: #d50000;
+  border-color: #d50000;
+}
+
+.btn-primary:hover {
+  background-color: #a40000;
+  border-color: #a40000;
+}
+
+/* Acordeón de preguntas frecuentes */
+.accordion-button {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #d50000;
+  color: #fff;
+}
+
+.accordion-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 10px;
+}
