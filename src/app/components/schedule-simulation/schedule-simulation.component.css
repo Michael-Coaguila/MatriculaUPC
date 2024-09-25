@@ -1,0 +1,80 @@
+/* General styling */
+.schedule-simulation-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding-top: 50px;
+}
+
+@media (min-width: 992px) {
+  .schedule-simulation-page {
+    margin-left: 250px;
+  }
+}
+
+.accordion-button {
+  font-size: 1.2rem;
+  background-color: #f0f0f0;
+  /* Fondo claro */
+  color: #333;
+  /* Texto oscuro */
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #e0e0e0;
+  /* Más oscuro cuando está abierto */
+}
+
+.accordion-body {
+  background-color: #fff;
+  /* Fondo blanco */
+}
+
+/* Destacar el curso seleccionado */
+.selected-course {
+  border-left: 5px solid #007bff;
+  /* Borde azul en cursos seleccionados */
+  background-color: #e8f4ff;
+  /* Fondo más claro */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f2f2f2;
+  /* Efecto hover en filas */
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+  /* Borde suave */
+}
+
+.alert {
+  font-size: 1.1rem;
+  margin-top: 15px;
+}
+
+.btn-primary {
+  background-color: #d50000;
+  border-color: #d50000;
+}
+
+.btn-primary:hover {
+  background-color: #a40000;
+}
+
+/* Notificación flotante en la esquina superior derecha */
+#horarioConflictoAlert {
+  width: 300px; /* Ancho de la notificación */
+  height: 100px; /* Altura de la notificación */
+  right: 20px; /* Distancia desde el borde derecho */
+  top: 20px; /* Distancia desde el borde superior */
+  z-index: 1050; /* Asegura que esté por encima de otros elementos */
+  opacity: 0; /* Inicialmente invisible */
+  transition: opacity 0.5s ease, top 0.5s ease; /* Animación de entrada/salida */
+}
+
+#horarioConflictoAlert.show {
+  opacity: 1; /* Mostrar la alerta */
+  top: 100px; /* Mover la alerta un poco hacia abajo al mostrarla */
+}
+

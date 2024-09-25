@@ -78,3 +78,13 @@ header {
     display: none !important;
   }
 }
+
+.btn-primary {
+  background-color: #d50000;
+  border-color: #d50000;
+}
+
+.btn-primary:hover {
+  background-color: #a40000;
+  border-color: #a40000;
+}
