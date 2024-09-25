@@ -227,19 +227,19 @@ export class ScheduleSimulationComponent implements OnInit {
     const dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
     const scheduleBody = document.getElementById('scheduleBody')!;
     scheduleBody.innerHTML = ''; // Limpiar el contenido previo
-  
+
     // Crear filas para cada hora de 7am a 11pm
     for (let hora = 7; hora <= 23; hora++) {
       const fila = document.createElement('tr');
       const celdaHora = document.createElement('td');
       celdaHora.textContent = `${hora}:00 - ${hora + 1}:00`;
       fila.appendChild(celdaHora);
-  
+
       // Crear celdas para cada día
       dias.forEach((dia) => {
         let celdaDia = document.createElement('td');
         let cursoEncontrado = false;
-  
+
         // Recorrer los cursos seleccionados y verificar si alguno pertenece a este día y hora
         for (let curso in this.horariosSeleccionados) {
           const horario = this.horariosSeleccionados[curso];
@@ -250,22 +250,22 @@ export class ScheduleSimulationComponent implements OnInit {
             !horario.mostrado // Asegurarse de no repetir celdas para el mismo curso
           ) {
             cursoEncontrado = true;
-  
+
             // Determinar cuántas horas abarca el curso para el rowspan
             const duracionHoras = horario.horaFin - horario.horaInicio;
             celdaDia = document.createElement('td');
             celdaDia.setAttribute('rowspan', duracionHoras.toString());
-  
+
             // Mostrar la sección y el nombre del curso
             celdaDia.innerHTML = `<strong>${horario.seccion}</strong><br>${curso}`;
             celdaDia.classList.add('bg-primary', 'text-white');
-  
+
             // Marcar este curso como mostrado para evitar duplicación
             horario.mostrado = true;
             break;
           }
         }
-  
+
         // Si no hay curso en este horario, dejamos la celda vacía
         if (!cursoEncontrado) {
           fila.appendChild(celdaDia);
@@ -273,16 +273,15 @@ export class ScheduleSimulationComponent implements OnInit {
           fila.appendChild(celdaDia);
         }
       });
-  
+
       scheduleBody.appendChild(fila);
     }
-  
+
     // Resetear la propiedad "mostrado" para todos los horarios para futuras actualizaciones del horario
     for (let curso in this.horariosSeleccionados) {
       this.horariosSeleccionados[curso].mostrado = false;
     }
   }
-  
 
   generarPdfHorario(): void {
     const doc = new jsPDF('landscape');

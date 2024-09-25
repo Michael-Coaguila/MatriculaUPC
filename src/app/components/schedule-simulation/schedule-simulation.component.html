@@ -88,41 +88,41 @@
   </div>
 
   <!-- Modal para mostrar el horario gráfico -->
-<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl"> <!-- Cambiamos modal-lg a modal-xl para más espacio -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="scheduleModalLabel">Horario de Cursos Seleccionados</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Tabla del horario con scroll horizontal en pantallas pequeñas -->
-        <div id="scheduleContainer" class="table-responsive">
-          <table class="table table-bordered text-center">
-            <thead class="bg-light">
-              <tr>
-                <th>Hora</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-                <th>Domingo</th>
-              </tr>
-            </thead>
-            <tbody id="scheduleBody">
-              <!-- Aquí se generarán dinámicamente las filas del horario -->
-            </tbody>
-          </table>
+  <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Cambiamos modal-lg a modal-xl para más espacio -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="scheduleModalLabel">Horario de Cursos Seleccionados</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="downloadPdfBtn">Descargar PDF</button>
+        <div class="modal-body">
+          <!-- Tabla del horario con scroll horizontal en pantallas pequeñas -->
+          <div id="scheduleContainer" class="table-responsive">
+            <table class="table table-bordered text-center">
+              <thead class="bg-light">
+                <tr>
+                  <th>Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miércoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                  <th>Sábado</th>
+                  <th>Domingo</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody">
+                <!-- Aquí se generarán dinámicamente las filas del horario -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="downloadPdfBtn">Descargar PDF</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </section>
