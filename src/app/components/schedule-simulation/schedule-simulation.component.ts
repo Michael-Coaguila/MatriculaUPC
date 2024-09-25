@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+// Importa jsPDF y autoTable
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-schedule-simulation',
@@ -79,6 +82,10 @@ export class ScheduleSimulationComponent implements OnInit {
       },
       // Agrega más ciclos y cursos aquí
     ];
+    // Agregar el evento de click para el botón de descargar PDF
+    document.getElementById('downloadPdfBtn')?.addEventListener('click', () => {
+      this.generarPdfHorario();
+    });
   }
 
   onSectionSelected(
@@ -86,7 +93,8 @@ export class ScheduleSimulationComponent implements OnInit {
     curso: string,
     dia: string,
     horaInicio: string,
-    horaFin: string
+    horaFin: string,
+    seccion: string
   ): void {
     // Convertir horas a formato de 24 horas (números)
     const horaInicioNum = this.convertirHoraA24(horaInicio);
@@ -126,6 +134,7 @@ export class ScheduleSimulationComponent implements OnInit {
       dia,
       horaInicio: horaInicioNum,
       horaFin: horaFinNum,
+      seccion,
     };
     this.ocultarAlertaConflicto();
     this.actualizarCreditos();
@@ -160,14 +169,14 @@ export class ScheduleSimulationComponent implements OnInit {
     if (alerta) {
       alerta.classList.remove('d-none');
       alerta.classList.add('show'); // Mostrar con animación
-  
+
       // Ocultar automáticamente después de unos segundos (opcional)
       setTimeout(() => {
         this.ocultarAlertaConflicto();
       }, 3000); // Duración visible de 3 segundos
     }
   }
-  
+
   ocultarAlertaConflicto(): void {
     const alerta = document.getElementById('horarioConflictoAlert');
     if (alerta) {
@@ -185,8 +194,8 @@ export class ScheduleSimulationComponent implements OnInit {
     // Sumar los créditos de cada curso seleccionado
     for (let curso in this.horariosSeleccionados) {
       const cursoSeleccionado = this.cursos
-        .flatMap(ciclo => ciclo.cursos)
-        .find(c => c.nombre === curso);
+        .flatMap((ciclo) => ciclo.cursos)
+        .find((c) => c.nombre === curso);
 
       if (cursoSeleccionado) {
         this.creditosSeleccionados += cursoSeleccionado.creditos;
@@ -198,14 +207,94 @@ export class ScheduleSimulationComponent implements OnInit {
       this.creditosSeleccionados.toString();
   }
 
+  // Esta es la función que mostrará el modal y generará el horario gráfico
   simulateEnrollment(): void {
     if (this.creditosSeleccionados === 0) {
       alert('Debes seleccionar al menos un curso.');
     } else {
-      alert(
-        `Simulación de matrícula completa con ${this.creditosSeleccionados} créditos seleccionados.`
+      // Crear el horario gráfico
+      this.crearHorarioGrafico();
+
+      // Mostrar el modal usando los métodos de Bootstrap nativos en Angular
+      const modal = new (window as any).bootstrap.Modal(
+        document.getElementById('scheduleModal')
       );
-      // Lógica adicional para guardar la simulación
+      modal.show();
     }
+  }
+
+  crearHorarioGrafico(): void {
+    const dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+    const scheduleBody = document.getElementById('scheduleBody')!;
+    scheduleBody.innerHTML = ''; // Limpiar el contenido previo
+  
+    // Crear filas para cada hora de 7am a 11pm
+    for (let hora = 7; hora <= 23; hora++) {
+      const fila = document.createElement('tr');
+      const celdaHora = document.createElement('td');
+      celdaHora.textContent = `${hora}:00 - ${hora + 1}:00`;
+      fila.appendChild(celdaHora);
+  
+      // Crear celdas para cada día
+      dias.forEach((dia) => {
+        let celdaDia = document.createElement('td');
+        let cursoEncontrado = false;
+  
+        // Recorrer los cursos seleccionados y verificar si alguno pertenece a este día y hora
+        for (let curso in this.horariosSeleccionados) {
+          const horario = this.horariosSeleccionados[curso];
+          if (
+            horario.dia === dia &&
+            horario.horaInicio <= hora &&
+            horario.horaFin > hora &&
+            !horario.mostrado // Asegurarse de no repetir celdas para el mismo curso
+          ) {
+            cursoEncontrado = true;
+  
+            // Determinar cuántas horas abarca el curso para el rowspan
+            const duracionHoras = horario.horaFin - horario.horaInicio;
+            celdaDia = document.createElement('td');
+            celdaDia.setAttribute('rowspan', duracionHoras.toString());
+  
+            // Mostrar la sección y el nombre del curso
+            celdaDia.innerHTML = `<strong>${horario.seccion}</strong><br>${curso}`;
+            celdaDia.classList.add('bg-primary', 'text-white');
+  
+            // Marcar este curso como mostrado para evitar duplicación
+            horario.mostrado = true;
+            break;
+          }
+        }
+  
+        // Si no hay curso en este horario, dejamos la celda vacía
+        if (!cursoEncontrado) {
+          fila.appendChild(celdaDia);
+        } else {
+          fila.appendChild(celdaDia);
+        }
+      });
+  
+      scheduleBody.appendChild(fila);
+    }
+  
+    // Resetear la propiedad "mostrado" para todos los horarios para futuras actualizaciones del horario
+    for (let curso in this.horariosSeleccionados) {
+      this.horariosSeleccionados[curso].mostrado = false;
+    }
+  }
+  
+
+  generarPdfHorario(): void {
+    const doc = new jsPDF('landscape');
+    doc.text('Horario de Cursos Seleccionados', 10, 10);
+
+    // Usamos autoTable correctamente
+    autoTable(doc, {
+      html: '#scheduleContainer table', // Seleccionamos la tabla del DOM
+      startY: 20,
+      styles: { halign: 'center' },
+    });
+
+    doc.save('horario-matricula.pdf');
   }
 }

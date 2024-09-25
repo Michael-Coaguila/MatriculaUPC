@@ -14,38 +14,29 @@
 .accordion-button {
   font-size: 1.2rem;
   background-color: #f0f0f0;
-  /* Fondo claro */
   color: #333;
-  /* Texto oscuro */
 }
 
 .accordion-button:not(.collapsed) {
   background-color: #e0e0e0;
-  /* Más oscuro cuando está abierto */
 }
 
 .accordion-body {
   background-color: #fff;
-  /* Fondo blanco */
 }
 
-/* Destacar el curso seleccionado */
 .selected-course {
   border-left: 5px solid #007bff;
-  /* Borde azul en cursos seleccionados */
   background-color: #e8f4ff;
-  /* Fondo más claro */
 }
 
 .table-hover tbody tr:hover {
   background-color: #f2f2f2;
-  /* Efecto hover en filas */
 }
 
 .table-bordered th,
 .table-bordered td {
   border: 1px solid #dee2e6;
-  /* Borde suave */
 }
 
 .alert {
@@ -62,19 +53,75 @@
   background-color: #a40000;
 }
 
-/* Notificación flotante en la esquina superior derecha */
 #horarioConflictoAlert {
-  width: 300px; /* Ancho de la notificación */
-  height: 100px; /* Altura de la notificación */
-  right: 20px; /* Distancia desde el borde derecho */
-  top: 20px; /* Distancia desde el borde superior */
-  z-index: 1050; /* Asegura que esté por encima de otros elementos */
-  opacity: 0; /* Inicialmente invisible */
-  transition: opacity 0.5s ease, top 0.5s ease; /* Animación de entrada/salida */
+  width: 300px;
+  height: 100px;
+  right: 20px;
+  top: 20px;
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity 0.5s ease, top 0.5s ease;
 }
 
 #horarioConflictoAlert.show {
-  opacity: 1; /* Mostrar la alerta */
-  top: 100px; /* Mover la alerta un poco hacia abajo al mostrarla */
+  opacity: 1;
+  top: 100px;
 }
 
+/* Tabla del horario */
+#scheduleContainer {
+  overflow-x: auto;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.table thead th {
+  background-color: #343a40;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  text-align: center;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.bg-primary {
+  background-color: #007bff !important;
+  color: white !important;
+}
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 767.98px) {
+  #scheduleContainer {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+  }
+}
+
+/* Estilos para pantallas grandes */
+@media (min-width: 992px) {
+  #scheduleContainer {
+    max-width: 80%;
+  }
+}
