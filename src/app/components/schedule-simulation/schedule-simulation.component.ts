@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Renderer2} from '@angular/core';
 // Importa jsPDF y autoTable
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -15,6 +15,8 @@ export class ScheduleSimulationComponent implements OnInit {
   creditosSeleccionados: number = 0;
   horariosSeleccionados: any = {}; // Guardará los horarios seleccionados por curso
   cursos: any[] = []; // Aquí guardaremos los datos dinámicos de cursos y horarios
+
+  constructor(private renderer: Renderer2) {}  // Inyectar Renderer2
 
   ngOnInit(): void {
     // Inicializa los datos simulados para los cursos (esto se reemplazará por una API en el futuro)
@@ -82,8 +84,15 @@ export class ScheduleSimulationComponent implements OnInit {
       },
       // Agrega más ciclos y cursos aquí
     ];
+    
     // Agregar el evento de click para el botón de descargar PDF
-    document.getElementById('downloadPdfBtn')?.addEventListener('click', () => {
+    /* document.getElementById('downloadPdfBtn')?.addEventListener('click', () => {
+      this.generarPdfHorario();
+    }); */
+    
+    // Usar Renderer2 para añadir un evento de clic al botón
+    const downloadBtn = this.renderer.selectRootElement('#downloadPdfBtn', true);
+    this.renderer.listen(downloadBtn, 'click', () => {
       this.generarPdfHorario();
     });
   }
