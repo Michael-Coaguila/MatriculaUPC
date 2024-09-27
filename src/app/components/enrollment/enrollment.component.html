@@ -1,1 +1,147 @@
-<p>enrollment works!</p>
+<section class="enrollment-page">
+  <div class="container col-lg-10 my-5">
+    <!-- Título y créditos seleccionados -->
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h1 class="text-dark">Proceso de Matrícula</h1>
+        <p class="lead">Créditos seleccionados: <span id="creditos-seleccionados" class="badge bg-primary">0</span>/27
+        </p>
+      </div>
+    </div>
+
+    <!-- Semestres y Cursos Plegables -->
+    <div class="accordion" id="semestresAccordion">
+      <div *ngFor="let semestre of cursos; let i = index" class="accordion-item mb-3">
+        <h2 class="accordion-header" [attr.id]="'heading' + i">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i">
+            {{ semestre.ciclo }}
+          </button>
+        </h2>
+        <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i">
+          <div class="accordion-body">
+            <div class="accordion" [attr.id]="'cursos' + i + 'Accordion'">
+              <div *ngFor="let curso of semestre.cursos; let j = index" class="accordion-item mb-2">
+                <h3 class="accordion-header" [attr.id]="'headingCurso' + i + j">
+                  <button class="accordion-button collapsed"
+                    [ngClass]="{'selected-course': horariosSeleccionados[curso.nombre]}" type="button"
+                    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseCurso' + i + j" aria-expanded="false"
+                    [attr.aria-controls]="'collapseCurso' + i + j">
+                    {{ curso.nombre }} <small class="text-muted">({{ curso.creditos }} créditos)</small>
+                  </button>
+                </h3>
+                <div [attr.id]="'collapseCurso' + i + j" class="accordion-collapse collapse"
+                  [attr.aria-labelledby]="'headingCurso' + i + j">
+                  <div class="accordion-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-bordered">
+                        <thead class="bg-light text-dark">
+                          <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Sección</th>
+                            <th scope="col">Docente</th>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Sede</th>
+                            <th scope="col">Modalidad</th>
+                            <th scope="col">Vacantes</th>
+                            <th scope="col">Libre</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let horario of curso.horarios">
+                            <td>
+                              <input type="checkbox" name="horario{{ curso.nombre }}"
+                                (change)="onSectionSelected($event, curso.nombre, horario.dia, horario.horaInicio, horario.horaFin, horario.seccion)">
+                            </td>
+                            <td>{{ horario.seccion }}</td>
+                            <td>{{ horario.docente }}</td>
+                            <td>{{ horario.dia }}: {{ horario.horaInicio }} - {{ horario.horaFin }}</td>
+                            <td>{{ horario.sede }}</td>
+                            <td>{{ horario.modalidad }}</td>
+                            <td>{{ horario.vacantes }}</td>
+                            <td>{{ horario.libre }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notificación emergente de cruce de horarios -->
+    <div class="alert alert-danger d-none position-fixed bottom-0 end-0 p-3 shadow-lg" id="horarioConflictoAlert"
+      role="alert" style="z-index: 1050;">
+      Existe un cruce de horarios. No puedes seleccionar este horario.
+    </div>
+
+    <!-- Botones para previsualizar y confirmar matrícula -->
+    <div class="row mt-4">
+      <div class="col-6 text-end">
+        <button class="btn btn-secondary btn-lg" (click)="previewSchedule()">Previsualizar Horario</button>
+      </div>
+      <div class="col-6 text-start">
+        <button class="btn btn-primary btn-lg" (click)="confirmEnrollment()">Confirmar Matrícula</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar el horario gráfico -->
+  <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Cambiamos modal-lg a modal-xl para más espacio -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="scheduleModalLabel">Horario de Cursos Seleccionados</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Tabla del horario con scroll horizontal en pantallas pequeñas -->
+          <div id="scheduleContainer" class="table-responsive">
+            <table class="table table-bordered text-center">
+              <thead class="bg-light">
+                <tr>
+                  <th>Hora</th>
+                  <th>Lunes</th>
+                  <th>Martes</th>
+                  <th>Miércoles</th>
+                  <th>Jueves</th>
+                  <th>Viernes</th>
+                  <th>Sábado</th>
+                  <th>Domingo</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody">
+                <!-- Aquí se generarán dinámicamente las filas del horario -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de matrícula -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">¡Matrícula Registrada!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Tu matrícula ha sido registrada exitosamente.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="redirectToOfficialSchedule()">Ver Horario Oficial</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
