@@ -1,1 +1,46 @@
-<p>official-schedule works!</p>
+<section class="official-schedule-page">
+    <div class="container col-lg-10 my-5">
+        <!-- Título y descripción -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="text-dark">Horario Oficial</h1>
+                <p class="lead">Aquí puedes ver y exportar tu horario oficial de clases.</p>
+            </div>
+        </div>
+
+        <!-- Tabla de horario -->
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Sábado</th>
+                                <th>Domingo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody">
+                            <!-- Aquí se generarán dinámicamente las filas del horario -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de exportación -->
+        <div class="row mt-4 text-center">
+            <div class="col-6">
+                <button class="btn btn-primary btn-lg" id="downloadPdfBtn">Descargar PDF</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-secondary btn-lg" (click)="exportToCalendar()">Exportar a Calendario</button>
+            </div>
+        </div>
+    </div>
+</section>
