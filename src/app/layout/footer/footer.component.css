@@ -1,61 +1,68 @@
 /* Footer oscuro */
 footer {
-    background-color: #343a40;
-    color: white;
+  position: relative;
+  z-index: 10;
+  /* Asegúrate de que este valor sea mayor que el del menú lateral */
+
+  background-color: #343a40;
+  color: white;
+}
+
+/* Estilo para el logo e información del footer */
+.footer-logo img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Estilo de enlaces del footer */
+footer a {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #d50000;
+  /* Cambia el color en hover */
+}
+
+/* Espaciado entre elementos del footer */
+footer ul li {
+  list-style: none;
+  margin-left: 20px;
+}
+
+footer .footer-social a {
+  font-size: 1.5rem;
+  /* Tamaño más grande para íconos de redes sociales */
+}
+
+footer .footer-social a:hover {
+  color: #d50000;
+  /* Cambia color de íconos en hover */
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+
+  .footer-logo,
+  .footer-social,
+  footer ul {
+    flex-direction: column;
+    text-align: center;
   }
-  
-  /* Estilo para el logo e información del footer */
+
   .footer-logo img {
-    width: 50px;
-    height: 50px;
+    margin-bottom: 10px;
   }
-  
-  /* Estilo de enlaces del footer */
-  footer a {
-    color: white;
-    transition: color 0.3s ease;
-  }
-  
-  footer a:hover {
-    color: #d50000; /* Cambia el color en hover */
-  }
-  
-  /* Espaciado entre elementos del footer */
+
   footer ul li {
-    list-style: none;
-    margin-left: 20px;
+    margin-left: 0;
+    margin-bottom: 10px;
   }
-  
-  footer .footer-social a {
-    font-size: 1.5rem; /* Tamaño más grande para íconos de redes sociales */
+
+  .footer-social a {
+    margin-left: 10px;
+    margin-right: 10px;
   }
-  
-  footer .footer-social a:hover {
-    color: #d50000; /* Cambia color de íconos en hover */
-  }
-  
-  /* Ajuste para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .footer-logo,
-    .footer-social,
-    footer ul {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .footer-logo img {
-      margin-bottom: 10px;
-    }
-  
-    footer ul li {
-      margin-left: 0;
-      margin-bottom: 10px;
-    }
-  
-    .footer-social a {
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-  }
-  
+}
   
