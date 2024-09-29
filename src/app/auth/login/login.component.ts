@@ -34,6 +34,7 @@ export class LoginComponent {
             // Almacenar el ID y nombre del estudiante en localStorage
             localStorage.setItem('estudianteID', estudiante.estudianteID);
             localStorage.setItem('estudianteNombre', estudiante.nombre);
+            localStorage.setItem('estudianteCodigo', estudiante.codigo);
             localStorage.setItem('estudianteFoto', estudiante.foto)
             
             // Redirigir al dashboard

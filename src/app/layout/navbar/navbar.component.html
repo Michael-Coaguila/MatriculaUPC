@@ -11,14 +11,14 @@
       <!-- Dropdown con información del alumno y opción de desconectarse -->
       <div class="dropdown">
         <button class="btn dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="me-2 d-none d-lg-inline">{{ alumno.nombre}}</span> <!-- Ocultamos el nombre en pantallas pequeñas -->
-          <span class="badge bg-primary">{{ alumno.id }}</span>
+          <span class="me-2 d-none d-lg-inline">{{ alumno.nombre }}</span> <!-- Ocultamos el nombre en pantallas pequeñas -->
+          <span class="badge bg-primary">{{ alumno.codigo }}</span>
           <img src="{{ alumno.foto }}" alt="User Logo" class="img-fluid rounded-circle" style="width: 40px; height: 40px;">
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
           <li><a class="dropdown-item" href="#">Perfil</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item text-danger" href="#">Desconectarse</a></li>
+          <li><a class="dropdown-item text-danger" href="#" (click)="logout()">Desconectarse</a></li>
         </ul>
       </div>
     </div>
