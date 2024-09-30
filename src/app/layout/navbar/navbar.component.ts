@@ -23,10 +23,10 @@ export class NavbarComponent implements OnInit {
     // Verificar si estamos en un entorno de navegador antes de usar localStorage
     if (this.isBrowser()) {
       // Extraer los datos del alumno desde localStorage
-      const nombre = localStorage.getItem('estudianteNombre');
-      const id = localStorage.getItem('estudianteID');
-      const codigo = localStorage.getItem('estudianteCodigo');
-      const foto = localStorage.getItem('estudianteFoto');
+      const nombre = sessionStorage.getItem('estudianteNombre');
+      const id = sessionStorage.getItem('estudianteID');
+      const codigo = sessionStorage.getItem('estudianteCodigo');
+      const foto = sessionStorage.getItem('estudianteFoto');
 
       // Si hay datos en el localStorage, los asignamos al objeto alumno
       if (nombre && id && foto) {
@@ -44,10 +44,10 @@ export class NavbarComponent implements OnInit {
   logout() {
     if (this.isBrowser()) {
       // Eliminar los datos del alumno del localStorage
-      localStorage.removeItem('estudianteNombre');
-      localStorage.removeItem('estudianteID');
-      localStorage.removeItem('estudianteCodigo');
-      localStorage.removeItem('estudianteFoto');
+      sessionStorage.removeItem('estudianteNombre');
+      sessionStorage.removeItem('estudianteID');
+      sessionStorage.removeItem('estudianteCodigo');
+      sessionStorage.removeItem('estudianteFoto');
     }
 
     // Redirigir al login
@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit {
 
   // Método para verificar si estamos en el navegador
   isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+    return typeof window !== 'undefined' && typeof sessionStorage !== 'undefined';
   }
 }
 
