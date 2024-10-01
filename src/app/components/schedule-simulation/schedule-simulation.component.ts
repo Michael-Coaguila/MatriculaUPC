@@ -3,6 +3,8 @@ import { Component, OnInit , Renderer2} from '@angular/core';
 // Importa jsPDF y autoTable
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { StudentService } from '../../services/student.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-simulation',
@@ -15,80 +17,14 @@ export class ScheduleSimulationComponent implements OnInit {
   creditosSeleccionados: number = 0;
   horariosSeleccionados: any = {}; // Guardará los horarios seleccionados por curso
   cursos: any[] = []; // Aquí guardaremos los datos dinámicos de cursos y horarios
+  studentData: any = {}; // Almacenar la respuesta completa de la API
+  student: any = {}; // Almacenar el estudiante seleccionado
 
-  constructor(private renderer: Renderer2) {}  // Inyectar Renderer2
+  constructor(private readonly ss: StudentService, private router: Router, private renderer: Renderer2) {}  // Inyectar Renderer2
 
   ngOnInit(): void {
-    // Inicializa los datos simulados para los cursos (esto se reemplazará por una API en el futuro)
-    this.cursos = [
-      {
-        ciclo: 'Ciclo 3',
-        cursos: [
-          {
-            nombre: 'Matemáticas Avanzadas',
-            creditos: 3,
-            horarios: [
-              {
-                seccion: 'A32B',
-                docente: 'Hilario Padilla',
-                dia: 'Jue',
-                horaInicio: '07:00',
-                horaFin: '10:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 30,
-                libre: 21,
-              },
-              {
-                seccion: 'A34C',
-                docente: 'Ana Perez',
-                dia: 'Lun',
-                horaInicio: '10:00',
-                horaFin: '12:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 28,
-                libre: 15,
-              },
-            ],
-          },
-          {
-            nombre: 'Física General',
-            creditos: 4,
-            horarios: [
-              {
-                seccion: 'B21A',
-                docente: 'David Gonzales',
-                dia: 'Jue',
-                horaInicio: '07:00',
-                horaFin: '10:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 45,
-                libre: 30,
-              },
-              {
-                seccion: 'B22B',
-                docente: 'Carlos Ramirez',
-                dia: 'Vie',
-                horaInicio: '14:00',
-                horaFin: '16:00',
-                sede: 'San Isidro',
-                modalidad: 'Presencial',
-                vacantes: 28,
-                libre: 18,
-              },
-            ],
-          },
-        ],
-      },
-      // Agrega más ciclos y cursos aquí
-    ];
-    
-    // Agregar el evento de click para el botón de descargar PDF
-    /* document.getElementById('downloadPdfBtn')?.addEventListener('click', () => {
-      this.generarPdfHorario();
-    }); */
+    // Llamar al método para obtener y transformar los datos
+    this._getStudentAndTransformCourses();
     
     // Usar Renderer2 para añadir un evento de clic al botón
     const downloadBtn = this.renderer.selectRootElement('#downloadPdfBtn', true);
@@ -96,6 +32,85 @@ export class ScheduleSimulationComponent implements OnInit {
       this.generarPdfHorario();
     });
   }
+
+  // Método para obtener y transformar los datos del estudiante
+  _getStudentAndTransformCourses(): void {
+    this.ss.getStudents().subscribe((response: any) => {
+      this.studentData = response.data; // Asumimos que `data` es donde están los estudiantes
+      console.log('Todos los estudiantes:', this.studentData);
+
+      // Recuperar el ID del estudiante desde sessionStorage
+      const studentId = sessionStorage.getItem('estudianteID');
+
+      if (studentId) {
+        const numericId = Number(studentId); // Convertimos el id a número
+
+        // Encontrar el estudiante cuyo `estudianteID` coincida
+        const estudiante = this.studentData.find((e: any) => e.estudianteID === numericId);
+        
+        if (estudiante) {
+          this.student = estudiante;
+          this.ss.setStudent(this.student); // Almacenar el estudiante en el servicio
+          console.log('Estudiante encontrado:', this.student);
+          
+          // Transformar los datos de `cursosDisponibles` a la estructura del frontend
+          this.cursos = this.transformCourses(this.student.cursosDisponibles);
+          console.log('Cursos transformados:', this.cursos);
+        } else {
+          console.error('Estudiante no encontrado con el ID:', numericId);
+        }
+      } else {
+        console.error('No se encontró el ID del estudiante en sessionStorage');
+        this.router.navigate(['/login']); // Redirigir al login si no hay ID en sessionStorage
+      }
+    });
+  }
+
+  // Método para transformar los cursosDisponibles a la estructura requerida por el frontend
+  // Método para transformar los cursosDisponibles a la estructura requerida por el frontend
+transformCourses(cursosDisponibles: any[]): any[] {
+  const cursosPorCiclo: any = {}; // Objeto temporal para agrupar por ciclo
+
+  // Recorrer los cursos disponibles y agrupar por ciclo
+  cursosDisponibles.forEach((curso) => {
+    const ciclo = `Ciclo ${curso.ciclo}`; // Crear una clave basada en el ciclo
+    
+    // Si el ciclo no existe en el objeto temporal, inicializarlo
+    if (!cursosPorCiclo[ciclo]) {
+      cursosPorCiclo[ciclo] = {
+        ciclo: ciclo,
+        cicloNumero: curso.ciclo, // Almacenar el número del ciclo para ordenarlo más adelante
+        cursos: []
+      };
+    }
+
+    // Transformar el curso a la estructura esperada por el frontend
+    const cursoTransformado = {
+      nombre: curso.nombreCurso,
+      creditos: curso.creditos,
+      horarios: curso.secciones.map((seccion: any) => ({
+        seccion: seccion.seccion,
+        docente: seccion.docente,
+        dia: seccion.horarios[0]?.dia || '', // Asume que cada sección tiene al menos un horario
+        horaInicio: seccion.horarios[0]?.horaInicio || '',
+        horaFin: seccion.horarios[0]?.horaFin || '',
+        sede: seccion.sede,
+        modalidad: 'Presencial', // Asumiendo que todas las clases son presenciales, puedes cambiar esto si es necesario
+        vacantes: seccion.vacantesOriginales,
+        libre: seccion.vacantesRestantes,
+      }))
+    };
+
+    // Agregar el curso al ciclo correspondiente
+    cursosPorCiclo[ciclo].cursos.push(cursoTransformado);
+  });
+
+  // Convertir el objeto a un array y ordenarlo por ciclo
+  const ciclosOrdenados = Object.values(cursosPorCiclo).sort((a: any, b: any) => a.cicloNumero - b.cicloNumero);
+
+  return ciclosOrdenados;
+}
+
 
   onSectionSelected(
     event: any,
