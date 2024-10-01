@@ -3,8 +3,8 @@
       <!-- Encabezado de bienvenida -->
       <div class="row mb-4">
         <div class="col text-center">
-          <h1>Bienvenido, {{ alumno.nombre }}</h1>
-          <p class="lead">ID de Estudiante: <span class="badge bg-primary">{{ alumno.id }}</span></p>
+          <h1>Bienvenido, {{ student.nombre }}</h1>
+          <p class="lead">ID de Estudiante: <span class="badge bg-primary">{{ student.id }}</span></p>
         </div>
       </div>
   
@@ -14,11 +14,11 @@
             <div class="card shadow-sm">
               <div class="card-body">
                 <h5 class="card-title">Estado de Matrícula</h5>
-                <p class="card-text">Turno: <strong>{{ alumno.turno }}</strong></p>
+                <p class="card-text">Turno: <strong>{{ student.turno }}</strong></p>
                 <p class="card-text">
-                  <span class="badge bg-danger" *ngIf="alumno.tieneDeuda">Deuda Pendiente</span>
-                  <span class="badge bg-success" *ngIf="!alumno.tieneDeuda">Sin Deudas</span>
-                  <p class="card-text" *ngIf="alumno.tieneDeuda">Para consultar el estado de sus pagos y obtener más información, haga clic <a href="https://finanzas.upc.edu.pe/"><strong>AQUI</strong></a>
+                  <span class="badge bg-danger" *ngIf="student.tieneDeuda">Deuda Pendiente</span>
+                  <span class="badge bg-success" *ngIf="!student.tieneDeuda">Sin Deudas</span>
+                  <p class="card-text" *ngIf="student.tieneDeuda">Para consultar el estado de sus pagos y obtener más información, haga clic <a href="https://finanzas.upc.edu.pe/"><strong>AQUI</strong></a>
                 </p>
               </div>
             </div>
@@ -54,7 +54,7 @@
       <!-- Accesos Directos -->
       <div class="row" style="justify-content: center;">
         <!-- Si el alumno no se ha matriculado, colocar "Iniciar Matrícula" en el centro -->
-        <div [ngClass]="{'col-lg-10 text-center': !alumno.estaMatriculado, 'col-lg-5 mb-4': alumno.estaMatriculado}">
+        <div [ngClass]="{'col-lg-10 text-center': !student.estaMatriculado, 'col-lg-5 mb-4': student.estaMatriculado}">
           <div class="card shadow-sm">
             <div class="card-body">
               <h5 class="card-title">Iniciar Matrícula</h5>
@@ -65,7 +65,7 @@
         </div>
   
         <!-- Solo mostrar "Horario Matriculado" si el alumno ya se ha matriculado -->
-        <div *ngIf="alumno.estaMatriculado" class="col-lg-5 mb-4">
+        <div *ngIf="student.estaMatriculado" class="col-lg-5 mb-4">
           <div class="card shadow-sm">
             <div class="card-body">
               <h5 class="card-title">Horario Matriculado</h5>
