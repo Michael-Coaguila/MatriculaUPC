@@ -18,7 +18,8 @@ export class NavbarComponent implements OnInit {
     id: '',
     codigo: '',
     foto: '',
-    estaMatriculado: false
+    estaMatriculado: false,
+    tieneDeuda: false
   }; // Almacenar los datos del alumno
 
   constructor(private readonly ss: StudentService, private router: Router) {}
@@ -44,7 +45,8 @@ export class NavbarComponent implements OnInit {
               id: this.student.estudianteID,
               codigo: this.student.codigo,
               foto: this.student.foto,
-              estaMatriculado: this.student.estaMatriculado
+              estaMatriculado: this.student.estaMatriculado,
+              tieneDeuda: this.student.tieneDeuda
             }
             this.ss.setStudent(this.student); // Almacenar el estudiante en el servicio
             console.log('Estudiante encontrado:', this.student);

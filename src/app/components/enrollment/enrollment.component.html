@@ -51,7 +51,7 @@
                           <tr *ngFor="let horario of curso.horarios">
                             <td>
                               <input type="checkbox" name="horario{{ curso.nombre }}"
-                                (change)="onSectionSelected($event, curso.nombre, horario.dia, horario.horaInicio, horario.horaFin, horario.seccionID)">
+                                (change)="onSectionSelected($event, curso.nombre, horario.dia, horario.horaInicio, horario.horaFin, horario.seccionID, horario.seccion)">
                             </td>
                             <td>{{ horario.seccion }}</td>
                             <td>{{ horario.docente }}</td>

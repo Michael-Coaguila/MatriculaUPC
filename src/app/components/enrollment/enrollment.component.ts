@@ -154,7 +154,8 @@ export class EnrollmentComponent implements OnInit {
     dia: string,
     horaInicio: string,
     horaFin: string,
-    seccionID: number
+    seccionID: number,
+    seccion: string
   ): void {
     const horaInicioNum = this.convertirHoraA24(horaInicio);
     const horaFinNum = this.convertirHoraA24(horaFin);
@@ -192,6 +193,7 @@ export class EnrollmentComponent implements OnInit {
       horaInicio: horaInicioNum,
       horaFin: horaFinNum,
       seccionID, // Asegúrate de que el seccionID está almacenado aquí
+      seccion,
     };
 
     this.ocultarAlertaConflicto();

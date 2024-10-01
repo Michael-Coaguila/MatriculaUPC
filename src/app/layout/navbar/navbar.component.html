@@ -42,7 +42,7 @@
         <li><a href="/dashboard" class="text-decoration-none">Inicio</a></li>
         <li><a href="/enrollment-guide" class="text-decoration-none">Guía de Matricula</a></li>
         <li><a href="/schedule-simulation" class="text-decoration-none">Consulta de Horarios</a></li>
-        <li><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
+        <li *ngIf="!alumno?.tieneDeuda"><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
         <li *ngIf="alumno?.estaMatriculado"><a href="/official-schedule" class="text-decoration-none">Horario Matriculado</a></li>
       </ul>
     </div>
@@ -55,7 +55,7 @@
       <li><a href="/dashboard" class="text-decoration-none">Inicio</a></li>
       <li><a href="/enrollment-guide" class="text-decoration-none">Guía de Matricula</a></li>
       <li><a href="/schedule-simulation" class="text-decoration-none">Consulta de Horarios</a></li>
-      <li><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
+      <li *ngIf="!alumno?.tieneDeuda"><a href="/enrollment" class="text-decoration-none">Iniciar Matrícula</a></li>
       <li *ngIf="alumno?.estaMatriculado"><a href="/official-schedule" class="text-decoration-none">Horario Matriculado</a></li>
     </ul>
   </div>
