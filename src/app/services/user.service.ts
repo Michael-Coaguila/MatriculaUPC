@@ -11,12 +11,12 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // Método para enviar las credenciales de login
-  login(uid: string, pwd: string): Observable<any> {
+  login(Correo: string, Contrasena: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json' // Aseguramos que el formato sea JSON
     });
   
-    const body = { uid: uid, pwd: pwd }; // Enviar la contraseña sin hashear
+    const body = { Correo: Correo, Contrasena: Contrasena }; // Enviar la contraseña sin hashear
   
     console.log('Solicitud HTTP:', body);
   

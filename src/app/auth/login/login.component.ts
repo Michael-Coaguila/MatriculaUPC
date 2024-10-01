@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service'; // Importar el servic
 import { Router } from '@angular/router'; // Para redirigir después de login
 import { FormsModule } from '@angular/forms'; // Para usar ngModel en el formulario
 import { CommonModule } from '@angular/common';
+import { StudentService } from '../../services/student.service';
 
 @Component({
   selector: 'app-login',
@@ -13,16 +14,16 @@ import { CommonModule } from '@angular/common';
 })
 
 export class LoginComponent {
-  uid: string = ''; // Nombre de usuario
-  pwd: string = ''; // Contraseña
+  Correo: string = ''; // Nombre de usuario
+  Contrasena: string = ''; // Contraseña
   errorMessage: string | null = null; // Mensaje de error
 
   constructor(private userService: UserService, private router: Router) {}
 
   // Método que se ejecuta al hacer clic en "Iniciar Sesión"
   loginUser() {
-    if (this.uid && this.pwd) {
-      this.userService.login(this.uid, this.pwd).subscribe(
+    if (this.Correo && this.Contrasena) {
+      this.userService.login(this.Correo, this.Contrasena).subscribe(
         (response) => {
           console.log('Respuesta completa de la API:', response); // Verificar la estructura de la respuesta
   
@@ -32,19 +33,21 @@ export class LoginComponent {
             console.log(estudiante.codigo);
   
             // Asegúrate de que el ID y los demás campos existen
-            if (estudiante && estudiante.idEstudiante !== undefined && estudiante.nombre && estudiante.codigo && estudiante.foto) {
-              console.log('ID del estudiante recibido de la API:', estudiante.idEstudiante);
+            if (estudiante && estudiante.estudianteID !== undefined && estudiante.nombre && estudiante.codigo && estudiante.foto) {
+              console.log('ID del estudiante recibido de la API:', estudiante.estudianteID);
   
               // Almacenar el ID y otros datos del estudiante en sessionStorage
-              sessionStorage.setItem('estudianteID', estudiante.idEstudiante.toString()); // Convertimos el ID a string
-              sessionStorage.setItem('estudianteNombre', estudiante.nombre);
+              sessionStorage.setItem('estudianteID', estudiante.estudianteID.toString()); // Convertimos el ID a string
+              /* sessionStorage.setItem('estudianteNombre', estudiante.nombre);
               sessionStorage.setItem('estudianteCodigo', estudiante.codigo);
               sessionStorage.setItem('estudianteFoto', estudiante.foto);
+              sessionStorage.setItem('estudianteEstaMatriculado', estudiante.estaMatriculado); */
   
               console.log('ID del estudiante almacenado en sessionStorage:', sessionStorage.getItem('estudianteID'));
-              console.log('Nombre del estudiante almacenado en sessionStorage:', sessionStorage.getItem('estudianteNombre'));
+              /* console.log('Nombre del estudiante almacenado en sessionStorage:', sessionStorage.getItem('estudianteNombre'));
               console.log('Código del estudiante almacenado en sessionStorage:', sessionStorage.getItem('estudianteCodigo'));
               console.log('Foto del estudiante almacenada en sessionStorage:', sessionStorage.getItem('estudianteFoto'));
+              console.log('¿Está matriculado el estudiante?', sessionStorage.getItem('estudianteEstaMatriculado')); */
   
               // Redirigir al dashboard
               this.router.navigate(['/dashboard']);
