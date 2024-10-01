@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { StudentService } from '../../services/student.service'; // Para obtener los cursos del estudiante
+import { RegistrationService } from '../../services/registration.service'; // Para registrar la matrícula
 
 @Component({
   selector: 'app-enrollment',
   standalone: true,
-  imports: [CommonModule], // standalone con CommonModule
+  imports: [CommonModule],
   templateUrl: './enrollment.component.html',
   styleUrls: ['./enrollment.component.css'],
 })
@@ -14,75 +16,136 @@ export class EnrollmentComponent implements OnInit {
   horariosSeleccionados: any = {}; // Guardará los horarios seleccionados por curso
   matriculaConfirmada: any = null; // Variable para almacenar la matrícula después de la confirmación
   cursos: any[] = []; // Aquí guardaremos los datos dinámicos de cursos y horarios
+  student: any = {}; // Variable para almacenar los datos del estudiante
 
-  constructor(private router: Router) {}
+  constructor(
+    private readonly ss: StudentService,
+    private readonly rs: RegistrationService, // Inyectamos el nuevo servicio de registro
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Inicializa los datos simulados para los cursos (esto se reemplazará por una API en el futuro)
-    this.cursos = [
-      {
-        ciclo: 'Ciclo 3',
-        cursos: [
-          {
-            nombre: 'Matemáticas Avanzadas',
-            creditos: 3,
-            horarios: [
-              {
-                seccion: 'A32B',
-                docente: 'Hilario Padilla',
-                dia: 'Jue',
-                horaInicio: '07:00',
-                horaFin: '10:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 30,
-                libre: 21,
-              },
-              {
-                seccion: 'A34C',
-                docente: 'Ana Perez',
-                dia: 'Lun',
-                horaInicio: '10:00',
-                horaFin: '12:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 28,
-                libre: 15,
-              },
-            ],
-          },
-          {
-            nombre: 'Física General',
-            creditos: 4,
-            horarios: [
-              {
-                seccion: 'B21A',
-                docente: 'David Gonzales',
-                dia: 'Jue',
-                horaInicio: '07:00',
-                horaFin: '10:00',
-                sede: 'Monterrico',
-                modalidad: 'Presencial',
-                vacantes: 45,
-                libre: 30,
-              },
-              {
-                seccion: 'B22B',
-                docente: 'Carlos Ramirez',
-                dia: 'Vie',
-                horaInicio: '14:00',
-                horaFin: '16:00',
-                sede: 'San Isidro',
-                modalidad: 'Presencial',
-                vacantes: 28,
-                libre: 18,
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    // Obtener los cursos del estudiante desde la API
+    this._getStudentAndTransformCourses();
   }
+
+  // Método para obtener el estudiante y transformar los cursos disponibles
+  _getStudentAndTransformCourses(): void {
+    this.ss.getStudents().subscribe((response: any) => {
+      const studentData = response.data;
+
+      // Recuperar el ID del estudiante desde sessionStorage
+      const studentId = sessionStorage.getItem('estudianteID');
+      if (studentId) {
+        const numericId = Number(studentId);
+        const estudiante = studentData.find(
+          (e: any) => e.estudianteID === numericId
+        );
+
+        if (estudiante) {
+          this.student = estudiante;
+          this.cursos = this.transformCourses(estudiante.cursosDisponibles);
+          console.log('Cursos transformados para matrícula:', this.cursos);
+        } else {
+          console.error('Estudiante no encontrado con el ID:', numericId);
+          this.router.navigate(['/login']);
+        }
+      } else {
+        console.error('No se encontró el ID del estudiante en sessionStorage');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  // Método para confirmar la matrícula y enviar los datos a la API de registro
+  confirmEnrollment(): void {
+    if (this.creditosSeleccionados === 0) {
+      alert('Debes seleccionar al menos un curso.');
+    } else {
+      // Crear el objeto de matrícula con el seccionID correcto
+      const matricula = {
+        estudianteID: this.student.estudianteID, // Asegúrate de que tienes el estudianteID correcto
+        cursosMatriculados: Object.keys(this.horariosSeleccionados).map(
+          (cursoNombre) => {
+            const curso = this.getCursoByName(cursoNombre);
+            return {
+              cursoID: curso.cursoID, // Debes obtener el ID del curso
+              seccionID: this.horariosSeleccionados[cursoNombre].seccionID, // Asegúrate de que seccionID sea un número
+            };
+          }
+        ),
+      };
+
+      console.log('Matrícula a registrar:', matricula);
+
+      // Llamar al servicio de registro para enviar la matrícula
+      this.rs.registrarMatricula(matricula).subscribe(
+        (response) => {
+          console.log('Matrícula registrada con éxito:', response);
+          this.matriculaConfirmada = matricula;
+
+          // Mostrar modal de confirmación
+          const confirmModal = new (window as any).bootstrap.Modal(
+            document.getElementById('confirmModal')
+          );
+          confirmModal.show();
+        },
+        (error) => {
+          console.error('Error al registrar la matrícula:', error);
+          alert('Hubo un error al registrar la matrícula.');
+        }
+      );
+    }
+  }
+
+  // Método auxiliar para obtener el curso por nombre
+  getCursoByName(cursoNombre: string): any {
+    return this.cursos
+      .flatMap((ciclo: any) => ciclo.cursos)
+      .find((c: any) => c.nombre === cursoNombre);
+  }
+
+  // Transformar los cursos a la estructura requerida por el frontend
+  transformCourses(cursosDisponibles: any[]): any[] {
+    const cursosPorCiclo: any = {};
+    cursosDisponibles.forEach((curso) => {
+      const ciclo = `Ciclo ${curso.ciclo}`;
+      if (!cursosPorCiclo[ciclo]) {
+        cursosPorCiclo[ciclo] = { ciclo, cursos: [] };
+      }
+      const cursoTransformado = {
+        nombre: curso.nombreCurso,
+        cursoID: curso.cursoID,
+        creditos: curso.creditos,
+        horarios: curso.secciones.map((seccion: any) => ({
+          seccion: seccion.seccion,
+          seccionID: seccion.seccionID,
+          docente: seccion.docente,
+          dia: seccion.horarios[0]?.dia || '',
+          horaInicio: seccion.horarios[0]?.horaInicio || '',
+          horaFin: seccion.horarios[0]?.horaFin || '',
+          sede: seccion.sede,
+          modalidad: 'Presencial',
+          vacantes: seccion.vacantesOriginales,
+          libre: seccion.vacantesRestantes,
+        })),
+      };
+      cursosPorCiclo[ciclo].cursos.push(cursoTransformado);
+    });
+
+    // Ordenamos los ciclos por el número que está después de "Ciclo "
+    const ciclosOrdenados = Object.values(cursosPorCiclo).sort(
+      (a: any, b: any) => {
+        const cicloA = parseInt(a.ciclo.split(' ')[1], 10);
+        const cicloB = parseInt(b.ciclo.split(' ')[1], 10);
+        return cicloA - cicloB; // Ordenar de menor a mayor
+      }
+    );
+
+    return ciclosOrdenados;
+  }
+
+  // Otros métodos (onSectionSelected, convertirHoraA24, horasSeCruzan, etc.) permanecen igual
 
   // Maneja la selección de horarios con validación de cruces
   onSectionSelected(
@@ -91,7 +154,7 @@ export class EnrollmentComponent implements OnInit {
     dia: string,
     horaInicio: string,
     horaFin: string,
-    seccion: string
+    seccionID: number
   ): void {
     const horaInicioNum = this.convertirHoraA24(horaInicio);
     const horaFinNum = this.convertirHoraA24(horaFin);
@@ -107,7 +170,12 @@ export class EnrollmentComponent implements OnInit {
       const horario = this.horariosSeleccionados[cursoSeleccionado];
       if (
         horario.dia === dia &&
-        this.horasSeCruzan(horario.horaInicio, horario.horaFin, horaInicioNum, horaFinNum)
+        this.horasSeCruzan(
+          horario.horaInicio,
+          horario.horaFin,
+          horaInicioNum,
+          horaFinNum
+        )
       ) {
         this.mostrarAlertaConflicto();
         event.target.checked = false; // Desmarcar la selección
@@ -118,13 +186,14 @@ export class EnrollmentComponent implements OnInit {
     // Deseleccionamos otros horarios del mismo curso
     this.deseleccionarOtrosHorarios(curso, event.target);
 
-    // Guardamos el nuevo horario seleccionado
+    // Guardamos el nuevo horario seleccionado con su sección
     this.horariosSeleccionados[curso] = {
       dia,
       horaInicio: horaInicioNum,
       horaFin: horaFinNum,
-      seccion,
+      seccionID, // Asegúrate de que el seccionID está almacenado aquí
     };
+
     this.ocultarAlertaConflicto();
     this.actualizarCreditos();
   }
@@ -195,6 +264,10 @@ export class EnrollmentComponent implements OnInit {
 
   // Previsualizar el horario en un modal
   previewSchedule(): void {
+    console.log(
+      'Horario seleccionado para matricula:',
+      this.horariosSeleccionados
+    );
     if (this.creditosSeleccionados === 0) {
       alert('Debes seleccionar al menos un curso.');
     } else {
@@ -207,7 +280,7 @@ export class EnrollmentComponent implements OnInit {
   }
 
   // Confirmar matrícula y guardar en la variable
-  confirmEnrollment(): void {
+  /* confirmEnrollment(): void {
     if (this.creditosSeleccionados === 0) {
       alert('Debes seleccionar al menos un curso.');
     } else {
@@ -220,7 +293,7 @@ export class EnrollmentComponent implements OnInit {
       );
       confirmModal.show();
     }
-  }
+  } */
 
   // Redirigir al componente de horario oficial
   redirectToOfficialSchedule(): void {

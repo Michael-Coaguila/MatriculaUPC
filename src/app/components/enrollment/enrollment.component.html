@@ -51,7 +51,7 @@
                           <tr *ngFor="let horario of curso.horarios">
                             <td>
                               <input type="checkbox" name="horario{{ curso.nombre }}"
-                                (change)="onSectionSelected($event, curso.nombre, horario.dia, horario.horaInicio, horario.horaFin, horario.seccion)">
+                                (change)="onSectionSelected($event, curso.nombre, horario.dia, horario.horaInicio, horario.horaFin, horario.seccionID)">
                             </td>
                             <td>{{ horario.seccion }}</td>
                             <td>{{ horario.docente }}</td>
@@ -139,7 +139,8 @@
           Tu matrícula ha sido registrada exitosamente.
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" (click)="redirectToOfficialSchedule()">Ver Horario Oficial</button>
+          <button type="button" class="btn btn-success" (click)="redirectToOfficialSchedule()">Ver Horario
+            Oficial</button>
         </div>
       </div>
     </div>
